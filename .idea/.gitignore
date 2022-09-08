@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../:\liuyzh\OneDrive - ytu.edu.cn\自定义服务相关汇总\集成Apache Zookeeper示例\ZOOKEEPER\3.4.5\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
