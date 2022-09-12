@@ -51,11 +51,11 @@ config_dir = "/etc/zookeeper/conf"
 zk_smoke_out = os.path.join(tmp_dir, "zkSmoke.out")
 
 # hadoop parameters for stacks that support rolling_upgrade
-if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
-  zk_home = format("{stack_root}/current/{component_directory}")
-  zk_bin = format("{stack_root}/current/{component_directory}/bin")
-  zk_cli_shell = format("{stack_root}/current/{component_directory}/bin/zkCli.sh")
-  config_dir = status_params.config_dir
+# if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
+#   zk_home = format("{stack_root}/current/{component_directory}")
+#   zk_bin = format("{stack_root}/current/{component_directory}/bin")
+#   zk_cli_shell = format("{stack_root}/current/{component_directory}/bin/zkCli.sh")
+#   config_dir = status_params.config_dir
 
 
 zk_user = config['configurations']['zookeeper-env']['zk_user']

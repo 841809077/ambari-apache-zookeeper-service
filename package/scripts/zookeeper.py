@@ -81,7 +81,9 @@ def zookeeper(type = None, upgrade_type=None):
 
     File(os.path.join(params.zk_data_dir, "myid"),
          mode = 0644,
-         content = myid
+         content = myid,
+         owner=params.zk_user,
+         group=params.user_group
     )
 
     generate_logfeeder_input_config('zookeeper', Template("input.config-zookeeper.json.j2", extra_imports=[default]))
@@ -145,7 +147,8 @@ def zookeeper(type = None, upgrade_type=None):
     File(os.path.join(params.zk_data_dir, "myid"),
          owner=params.zk_user,
          mode = "f",
-         content = myid
+         content = myid,
+         group=params.user_group
     )
 
 def configFile(name, template_name=None, mode=None):
