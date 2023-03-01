@@ -5,7 +5,8 @@ Ambari 集成 Apache Zookeeper
 分支介绍：
 - main: 主分支，不用参考
 - hdp_3.0_ZOOKEEPER: 该分支代码为 hdp3.0 版 ZOOKEEPER 集成代码（未做任何修改）。
-- apache_bigtop_rpm: Ambari 集成 Apache Zookeeper 3.5.9，使用 Aapache Bigtop 提供的 RPM 包，通过 Ambari 来安装部署 Apache Zookeeper。使用Apache Bigtop提供的Zookeeper RPM包来集成Apache Zookeeper
+- apache_rpm: Ambari 集成 Apache Zookeeper v3.5.9，使用 Aapache Bigtop 提供的 RPM 包，通过 Ambari 来安装部署 Apache Zookeeper。使用Apache Bigtop提供的Zookeeper RPM包来集成Apache Zookeeper
+- apache_tarball: Ambari 集成 Apache Zookeeper v3.5.9，实现 Ambari 使用 tar.gz 解压的方式部署 Apache Zookeeper
 
 关于Ambari自定义服务集成，我录有实战课程，已帮助 200+ 学员，实现将所需要的服务集成到 Ambari 中，深受好评。如果您有需要，欢迎与我联系，微信号: create17_
 
