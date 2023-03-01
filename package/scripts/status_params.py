@@ -49,12 +49,13 @@ else:
   kinit_path_local = get_kinit_path(default('/configurations/kerberos-env/executable_search_paths', None))
   tmp_dir = Script.get_tmp_dir()
   zk_user =  config['configurations']['zookeeper-env']['zk_user']
-  
+
+  # 3.1
   stack_version_unformatted = str(config['clusterLevelParams']['stack_version'])
   stack_version_formatted = format_stack_version(stack_version_unformatted)
   stack_root = Script.get_stack_root()
 
   config_dir = "/etc/zookeeper/conf"
-  if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
-    config_dir = format("{stack_root}/current/{component_directory}/conf")
+  # if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
+  #   config_dir = format("{stack_root}/current/{component_directory}/conf")
 stack_name = default("/clusterLevelParams/stack_name", None)

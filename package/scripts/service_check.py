@@ -51,7 +51,6 @@ class ZookeeperServiceCheckLinux(ZookeeperServiceCheck):
       smokeUserKeytab= "no_keytab"
       smokeUserPrincipal="no_principal"
 
-
     cmd_quorum = format("{tmp_dir}/zkSmoke.sh {zk_cli_shell} {smokeuser} {config_dir} {client_port} "
                   "{security_enabled} {kinit_path_local} {smokeUserKeytab} {smokeUserPrincipal} {zk_smoke_out}")
 

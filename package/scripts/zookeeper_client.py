@@ -32,6 +32,7 @@ from ambari_commons import OSConst
 from ambari_commons.os_family_impl import OsFamilyFuncImpl, OsFamilyImpl
 
 from zookeeper import zookeeper
+from zookeeper import installTarBall
 
 class ZookeeperClient(Script):
   def configure(self, env):
@@ -58,7 +59,7 @@ class ZookeeperClient(Script):
 class ZookeeperClientLinux(ZookeeperClient):
 
   def install(self, env):
-    self.install_packages(env)
+    installTarBall(env)
     self.configure(env)
 
   def pre_upgrade_restart(self, env, upgrade_type=None):

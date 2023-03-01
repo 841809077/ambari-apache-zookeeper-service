@@ -21,7 +21,9 @@ Ambari Agent
 import os
 import sys
 
+from resource_management.core.resources.system import Execute
 from resource_management.libraries.script.script import Script
+from resource_management.libraries.functions.format import format
 from resource_management.libraries.functions import conf_select,stack_select
 from resource_management.libraries.functions.constants import StackFeature
 from resource_management.libraries.functions.default import default
@@ -31,8 +33,10 @@ from resource_management.libraries.functions.stack_features import check_stack_f
 from resource_management.core.resources.system import Directory, File
 from resource_management.core.resources.service import ServiceConfig
 from resource_management.core.source import InlineTemplate, Template
+from resource_management.core.logger import Logger
 from ambari_commons import OSConst
 from ambari_commons.os_family_impl import OsFamilyFuncImpl, OsFamilyImpl
+
 
 @OsFamilyFuncImpl(os_family=OsFamilyImpl.DEFAULT)
 def zookeeper(type = None, upgrade_type=None):
@@ -49,7 +53,7 @@ def zookeeper(type = None, upgrade_type=None):
        owner=params.zk_user,
        group=params.user_group
   )
-  
+
 
   configFile("zoo.cfg", template_name="zoo.cfg.j2")
   configFile("configuration.xsl", template_name="configuration.xsl.j2")
@@ -81,7 +85,9 @@ def zookeeper(type = None, upgrade_type=None):
 
     File(os.path.join(params.zk_data_dir, "myid"),
          mode = 0644,
-         content = myid
+         content = myid,
+         owner=params.zk_user,
+         group=params.user_group
     )
 
     generate_logfeeder_input_config('zookeeper', Template("input.config-zookeeper.json.j2", extra_imports=[default]))
@@ -145,7 +151,8 @@ def zookeeper(type = None, upgrade_type=None):
     File(os.path.join(params.zk_data_dir, "myid"),
          owner=params.zk_user,
          mode = "f",
-         content = myid
+         content = myid,
+         group=params.user_group
     )
 
 def configFile(name, template_name=None, mode=None):
@@ -157,6 +164,34 @@ def configFile(name, template_name=None, mode=None):
        group=params.user_group,
        mode=mode
   )
+
+def installTarBall(env):
+    import params
+    env.set_params(params)
+    # Download zookeeper.tar.gz
+    Execute('wget {0} -O zookeeper.tar.gz'.format(params.zk_download))
+
+    Directory(params.zk_home,
+              owner=params.zk_user,
+              create_parents=True,
+              group=params.user_group,
+              mode=0755,
+              )
+
+    # Install Zookeeper to the specified directory
+    Execute('tar -zxvf zookeeper.tar.gz -C {0}'.format(params.zk_home))
+
+    # rename
+    Execute('rm -rf {0}/zookeeper; mv {0}/apache-zookeeper-3.5.9-bin {0}/zookeeper'.format(params.zk_home))
+
+    # Remove Zookeeper installation file
+    Execute('rm -rf zookeeper.tar.gz')
+
+    # Ensure all files owned by zookeeper user
+    cmd = format("chown -R {zk_user}:{user_group} {zk_home}/zookeeper")
+    Execute(cmd)
+
+    Logger.info("Install complete")
 
 
 

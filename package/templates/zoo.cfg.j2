@@ -57,6 +57,7 @@ quorum.auth.learnerRequireSasl=true
 {% for host in zookeeper_hosts -%}
 server.{{loop.index}}={{host}}:2888:3888
 {% endfor %}
+clientPortAddress={{hostname}}
 
 {% if security_enabled -%}
 authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider

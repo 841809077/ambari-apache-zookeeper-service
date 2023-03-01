@@ -41,6 +41,7 @@ from zookeeper_service import zookeeper_service
 from ambari_commons import OSConst
 from ambari_commons.os_family_impl import OsFamilyImpl
 
+from zookeeper import installTarBall
 
 class ZookeeperServer(Script):
 
@@ -64,7 +65,7 @@ class ZookeeperServer(Script):
 class ZookeeperServerLinux(ZookeeperServer):
 
   def install(self, env):
-    self.install_packages(env)
+    installTarBall(env)
     self.configure(env)
 
   def pre_upgrade_restart(self, env, upgrade_type=None):

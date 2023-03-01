@@ -32,6 +32,7 @@ from resource_management.libraries.functions.expect import expect
 
 # server configurations
 config = Script.get_config()
+# /var/lib/ambari-agent/tmp
 tmp_dir = Script.get_tmp_dir()
 
 stack_version_formatted = status_params.stack_version_formatted
@@ -44,18 +45,18 @@ component_directory = status_params.component_directory
 version = default("/commandParams/version", None)
 
 # default parameters
-zk_home = "/usr"
-zk_bin = "/usr/lib/zookeeper/bin"
-zk_cli_shell = "/usr/lib/zookeeper/bin/zkCli.sh"
-config_dir = "/etc/zookeeper/conf"
+zk_home = "/usr/hadoop"
+zk_bin = os.path.join(zk_home, 'zookeeper/bin')
+zk_cli_shell = os.path.join(zk_bin, 'zkCli.sh')
+config_dir = os.path.join(zk_home, 'zookeeper/conf')
 zk_smoke_out = os.path.join(tmp_dir, "zkSmoke.out")
 
 # hadoop parameters for stacks that support rolling_upgrade
-if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
-  zk_home = format("{stack_root}/current/{component_directory}")
-  zk_bin = format("{stack_root}/current/{component_directory}/bin")
-  zk_cli_shell = format("{stack_root}/current/{component_directory}/bin/zkCli.sh")
-  config_dir = status_params.config_dir
+# if stack_version_formatted and check_stack_feature(StackFeature.ROLLING_UPGRADE, stack_version_formatted):
+#   zk_home = format("{stack_root}/current/{component_directory}")
+#   zk_bin = format("{stack_root}/current/{component_directory}/bin")
+#   zk_cli_shell = format("{stack_root}/current/{component_directory}/bin/zkCli.sh")
+#   config_dir = status_params.config_dir
 
 
 zk_user = config['configurations']['zookeeper-env']['zk_user']
@@ -111,3 +112,7 @@ if ('zookeeper-log4j' in config['configurations']) and ('content' in config['con
   log4j_props = config['configurations']['zookeeper-log4j']['content']
 else:
   log4j_props = None
+
+ambari_server_host = config['ambariLevelParams']['ambari_server_host']
+zk_download = os.path.join('http://', ambari_server_host, 'hadoop/tarball/apache-zookeeper-3.5.9-bin.tar.gz')
+
